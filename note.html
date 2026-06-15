@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>我的成长错题本</title>
+<title>b�vb����,g</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background:#f5f0eb;color:#333;line-height:1.7}
@@ -53,31 +53,37 @@ body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background
 .actions{margin-top:16px;display:flex;gap:8px}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(40,40,40,.9);color:#fff;padding:10px 22px;border-radius:10px;font-size:13px;z-index:999;pointer-events:none;opacity:0;transition:.35s}
 .toast.show{opacity:1}
+
+.btn-sync{background:#6c9a8b;color:#fff;border:none;padding:10px 0;border-radius:8px;font-size:14px;cursor:pointer;width:100%;font-weight:500;margin-top:10px}
+.btn-sync:hover{background:#5a8778}
+.sync-bar{display:flex;gap:8px;margin-bottom:16px}
+.sync-status{font-size:11px;color:#888;text-align:center;padding:4px 0}
 </style>
 </head>
 <body>
 <div class="header">
-<h1>📓 我的成长错题本</h1>
-<div class="sub">把每一天的经历变成经验</div>
+<h1>=��� b�vb����,g</h1>
+<div class="sub">�b�kN)Y�v�~�S�Sb�~��</div>
 <div class="nav" id="navBar"></div>
 </div>
 <div class="main">
-<div class="page active" id="pageDashboard"><div class="stats" id="statsBox"></div><div class="recent-box"><div class="recent-title">最近记录</div><div id="recentList"></div></div></div>
+<div class="page active" id="pageDashboard"><div class="stats" id="statsBox"></div><div class="sync-bar"><button class="btn-sync" onclick="syncToGitHub()">☁️ 同步到 GitHub</button><button class="btn-sync" onclick="loadFromGitHub()">☁️ 从 GitHub 拉取</button></div><div class="sync-status" id="syncStatus">就绪</div><div class="recent-box"><div class="recent-title">gя��U_</div><div id="recentList"></div></div></div>
 <div class="page" id="pageAdd">
 <div class="form">
-<h2>✏️ 记录一条新反思</h2>
-<div class="field"><label>标题 *</label><input id="t" placeholder="例如：今天《纳米技术》那节课的遗憾"></div>
-<div class="row2"><div class="field"><label>分类</label><select id="c"><option value="教学反思">🍎 教学反思</option><option value="班级管理">📋 班级管理</option><option value="个人成长">🌱 个人成长</option></select></div>
-<div class="field"><label>标签（逗号分隔）</label><input id="tags" placeholder="如：课堂互动,三年级"></div></div>
-<div class="field"><label>📌 情境/问题</label><textarea id="s" rows="3" placeholder="当时发生了什么？"></textarea></div>
-<div class="field"><label>💡 我的反思</label><textarea id="r" rows="3" placeholder="为什么需要改进？"></textarea></div>
-<div class="field"><label>🛠️ 改进方案</label><textarea id="i" rows="2" placeholder="下次我会怎么做？"></textarea></div>
-<div class="field"><label>🔁 后续追踪（可选）</label><textarea id="f" rows="2" placeholder="后来试了吗？"></textarea></div>
-<button class="btn" id="saveBtn" onclick="save()">💾 保存记录</button>
+<h2>'� ��U_Nag�e�S`</h2>
+<div class="field"><label>h�� *</label><input id="t" placeholder="�O�Y��N)Y
+0�~s|�b/g0�������vW��a"></div>
+<div class="row2"><div class="field"><label>R{|</label><select id="c"><option value="Yef[�S`"><�N� Yef[�S`</option><option value="�s�~�{t">=��� �s�~�{t</option><option value="*N�Nb�"><�1� *N�Nb�</option></select></div>
+<div class="field"><label>h~{���SR��	�</label><input id="tags" placeholder="�Y���X�N�R,	Nt^�~"></div></div>
+<div class="field"><label>=��� �`�X/�</label><textarea id="s" rows="3" placeholder="S_�e�Su�N�NHN�"></textarea></div>
+<div class="field"><label>=ء� b�v�S`</label><textarea id="r" rows="3" placeholder=":N�NHN���9eۏ�"></textarea></div>
+<div class="field"><label>=���� 9eۏ�eHh</label><textarea id="i" rows="2" placeholder="N!kbO`HNZP�"></textarea></div>
+<div class="field"><label>=�� T�~��*���S	�	�</label><textarea id="f" rows="2" placeholder="TegՋ�NT�"></textarea></div>
+<button class="btn" id="saveBtn" onclick="save()">=ؾ� �OX[��U_</button>
 </div></div>
 <div class="page" id="pageList">
-<div class="bar"><select id="filterCat" onchange="renderList()"><option value="">全部分类</option><option value="教学反思">🍎 教学反思</option><option value="班级管理">📋 班级管理</option><option value="个人成长">🌱 个人成长</option></select>
-<input id="searchQ" placeholder="搜索…" oninput="renderList()"><button class="btn-sec" onclick="exportCsv()">📥 导出</button></div>
+<div class="bar"><select id="filterCat" onchange="renderList()"><option value="">hQ�R{|</option><option value="Yef[�S`"><�N� Yef[�S`</option><option value="�s�~�{t">=��� �s�~�{t</option><option value="*N�Nb�"><�1� *N�Nb�</option></select>
+<input id="searchQ" placeholder="d"}& " oninput="renderList()"><button class="btn-sec" onclick="exportCsv()">=��� �[�Q</button></div>
 <div id="listBox"></div></div>
 <div class="page" id="pageDetail"><div class="detail-box" id="detailBox"></div></div>
 </div>
@@ -88,30 +94,128 @@ function load(){try{entries=JSON.parse(localStorage.getItem(KEY))||[]}catch(e){e
 function save(){localStorage.setItem(KEY,JSON.stringify(entries))}
 
 const pages=['dashboard','add','list','detail'];
-const pageLabels=['📊 总览','✏️ 记录','📖 浏览'];
+const pageLabels=['=��� ;`ȉ',''� ��U_','=��� Omȉ'];
 const navBar=document.getElementById('navBar');
 pageLabels.forEach((label,i)=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>switchPage(pages[i]);if(i===0)b.className='active';navBar.appendChild(b)})
 
-function switchPage(name){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const idx=pages.indexOf(name);if(idx>=0)document.querySelectorAll('.nav button')[idx].classList.add('active');document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');if(name==='dashboard')renderDash();if(name==='list')renderList()}
+function switchPage(name){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const idx=pages.indexOf(name);if(idx>=0)document.querySelectorAll('.nav button')[idx].classList.add('active');document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');if(name==='dashboard')
+let editId=null;
+function editEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}
+editId=id;document.getElementById('t').value=e.title||'';document.getElementById('c').value=e.cat||'教学反思'
+document.getElementById('tags').value=(e.tags||[]).join(', ');document.getElementById('s').value=e.sit||''
+document.getElementById('r').value=e.ref||'';document.getElementById('i').value=e.imp||''
+document.getElementById('f').value=e.fol||''
+const btn=document.getElementById('saveBtn');btn.onclick=update;btn.textContent='🔄 更新记录';switchPage('add')}
+
+function update(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}
+const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='更新中…'
+load();const idx=entries.findIndex(x=>x.id===editId)
+if(idx<0){toast('记录不存在');editId=null;btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录';return}
+entries[idx]={...entries[idx],title,cat:document.getElementById('c').value,
+tags:document.getElementById('tags').value.split(/[,\u3001]/).map(s=>s.trim()).filter(Boolean),
+sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),
+imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),
+edited:new Date().toISOString()};save();editId=null
+['t','tags','s','r','i','f'].forEach(function(id){document.getElementById(id).value=''})
+btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录'
+toast('✅ 已更新');renderDash();switchPage('dashboard')}
+
+const GH_OWNER='kitty197831578-droid',GH_REPO='nb',GH_BRANCH='main',GH_FILE='data.json';
+const GH_RAW='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_FILE;
+function setSync(m){const e=document.getElementById('syncStatus');if(e)e.textContent=m}
+
+function getToken(){let t=localStorage.getItem('gh_token');if(!t){t=prompt('请输入 GitHub Personal Access Token\n创建: https://github.com/settings/tokens/new\n只需 repo 权限');if(t)localStorage.setItem('gh_token',t)}return t}
+
+async function syncToGitHub(){const t=getToken();if(!t)return;setSync('同步中…');load()
+if(!entries.length){setSync('暂无数据');return}
+try{const r=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{headers:{'Accept':'application/vnd.github.v3+json','Authorization':'Bearer '+t}})
+let sha=null;if(r.ok){const i=await r.json();sha=i.sha}
+const b={message:'同步数据 '+new Date().toLocaleString('zh-CN'),content:btoa(unescape(encodeURIComponent(JSON.stringify(entries,null,2)))),branch:GH_BRANCH};if(sha)b.sha=sha
+const p=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{method:'PUT',headers:{'Accept':'application/vnd.github.v3+json','Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(b)})
+if(p.ok){localStorage.setItem('lastSync',new Date().toISOString());setSync('✅ 同步成功');toast('☁️ 已同步')}
+else{const e=await p.text();setSync('❌ 同步失败');console.error(e);toast('同步失败')}}
+catch(e){setSync('❌ 错误: '+e.message);toast('网络错误')}}
+
+async function loadFromGitHub(){setSync('正在拉取…')
+try{const r=await fetch(GH_RAW);if(!r.ok){setSync('⚠️ 无远程数据');return}
+const d=await r.json();if(!Array.isArray(d)||!d.length){setSync('⚠️ 远程数据为空');return}
+load();const ids=new Set(entries.map(x=>x.id));let n=0
+d.forEach(function(x){if(!ids.has(x.id)){entries.push(x);n++}})
+if(n){entries.sort(function(a,b){return new Date(b.date)-new Date(a.date)});save();setSync('✅ 合并了 '+n+' 条');toast('☁️ 拉取了 '+n+' 条新记录');renderDash()}
+else setSync('✅ 已是最新')}
+catch(e){setSync('❌ 拉取失败: '+e.message);toast('网络错误')}}
+
+setTimeout(loadFromGitHub, 2000);
+renderDash();if(name==='list')renderList()}
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-function renderDash(){load();const counts={'教学反思':0,'班级管理':0,'个人成长':0};entries.forEach(e=>{if(counts[e.cat]!==undefined)counts[e.cat]++});document.getElementById('statsBox').innerHTML=[{l:'教学反思',n:counts['教学反思'],cl:'#3a8b7a'},{l:'班级管理',n:counts['班级管理'],cl:'#7c5fa0'},{l:'个人成长',n:counts['个人成长'],cl:'#b8862a'}].map(s=>'<div class="stat-card"><div class="stat-num" style="color:'+s.cl+'">'+s.n+'</div><div class="stat-label">'+s.l+'</div></div>').join('');const recent=entries.slice(0,10);document.getElementById('recentList').innerHTML=recent.length?recent.map(e=>cardHtml(e)).join(''):'<div class="empty"><div class="icon">📝</div><p>还没有记录，去写第一条吧！</p></div>'}
+function renderDash(){load();const counts={'Yef[�S`':0,'�s�~�{t':0,'*N�Nb�':0};entries.forEach(e=>{if(counts[e.cat]!==undefined)counts[e.cat]++});document.getElementById('statsBox').innerHTML=[{l:'Yef[�S`',n:counts['Yef[�S`'],cl:'#3a8b7a'},{l:'�s�~�{t',n:counts['�s�~�{t'],cl:'#7c5fa0'},{l:'*N�Nb�',n:counts['*N�Nb�'],cl:'#b8862a'}].map(s=>'<div class="stat-card"><div class="stat-num" style="color:'+s.cl+'">'+s.n+'</div><div class="stat-label">'+s.l+'</div></div>').join('');const recent=entries.slice(0,10);document.getElementById('recentList').innerHTML=recent.length?recent.map(e=>cardHtml(e)).join(''):'<div class="empty"><div class="icon">=���</div><p>؏�l	g��U_��S�Q,{Nag'T�</p></div>'}
 
-function cardHtml(e){const cls=e.cat==='教学反思'?'ct-t':e.cat==='班级管理'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const prev=(e.sit||e.ref||'').slice(0,60);return'<div class="entry-item" onclick="viewEntry('+e.id+')"><div class="entry-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span class="entry-date">'+ds+'</span></div><div class="entry-title">'+esc(e.title||'无标题')+'</div><div class="entry-preview">'+esc(prev)+(prev.length>=60?'…':'')+'</div></div>'}
+function cardHtml(e){const cls=e.cat==='Yef[�S`'?'ct-t':e.cat==='�s�~�{t'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const prev=(e.sit||e.ref||'').slice(0,60);return'<div class="entry-item" onclick="viewEntry('+e.id+')"><div class="entry-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span class="entry-date">'+ds+'</span></div><div class="entry-title">'+esc(e.title||'�eh��')+'</div><div class="entry-preview">'+esc(prev)+(prev.length>=60?'& ':'')+'</div></div>'}
 
-function save(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='保存中…';load();const entry={id:Date.now()+'_'+Math.random().toString(36).slice(2,6),title,cat:document.getElementById('c').value,tags:document.getElementById('tags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),date:new Date().toISOString()};entries.unshift(entry);save();['t','tags','s','r','i','f'].forEach(id=>document.getElementById(id).value='');toast('✅ 已保存');switchPage('dashboard');btn.disabled=false;btn.textContent='💾 保存记录'}
+function save(){const title=document.getElementById('t').value.trim();if(!title){toast('��kX�Qh��');return}const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='�OX[-N& ';load();const entry={id:Date.now()+'_'+Math.random().toString(36).slice(2,6),title,cat:document.getElementById('c').value,tags:document.getElementById('tags').value.split(/[,�]/).map(s=>s.trim()).filter(Boolean),sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),date:new Date().toISOString()};entries.unshift(entry);save();['t','tags','s','r','i','f'].forEach(id=>document.getElementById(id).value='');toast('' �]�OX[');switchPage('dashboard');btn.disabled=false;btn.textContent='=ؾ� �OX[��U_'}
 
-function renderList(){load();const cat=document.getElementById('filterCat').value;const q=document.getElementById('searchQ').value.trim().toLowerCase();let filtered=entries;if(cat)filtered=filtered.filter(e=>e.cat===cat);if(q)filtered=filtered.filter(e=>(e.title||'').toLowerCase().includes(q)||(e.sit||'').toLowerCase().includes(q)||(e.ref||'').toLowerCase().includes(q)||(e.tags||[]).some(t=>t.toLowerCase().includes(q)));const box=document.getElementById('listBox');if(!filtered.length){box.innerHTML='<div class="empty"><div class="icon">🔍</div><p>没有记录</p></div>';return}box.innerHTML='<div class="recent-box">'+filtered.map(e=>cardHtml(e)).join('')+'</div>'}
+function renderList(){load();const cat=document.getElementById('filterCat').value;const q=document.getElementById('searchQ').value.trim().toLowerCase();let filtered=entries;if(cat)filtered=filtered.filter(e=>e.cat===cat);if(q)filtered=filtered.filter(e=>(e.title||'').toLowerCase().includes(q)||(e.sit||'').toLowerCase().includes(q)||(e.ref||'').toLowerCase().includes(q)||(e.tags||[]).some(t=>t.toLowerCase().includes(q)));const box=document.getElementById('listBox');if(!filtered.length){box.innerHTML='<div class="empty"><div class="icon">=��</div><p>�l	g��U_</p></div>';return}box.innerHTML='<div class="recent-box">'+filtered.map(e=>cardHtml(e)).join('')+'</div>'}
 
-function viewEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}const cls=e.cat==='教学反思'?'ct-t':e.cat==='班级管理'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';const tagsHtml=(e.tags&&e.tags.length)?'<div class="tags">'+e.tags.map(t=>'<span>#'+esc(t)+'</span>').join('')+'</div>':'';let sec='';if(e.sit)sec+='<div class="detail-sec"><h3>📌 情境/问题</h3><p>'+esc(e.sit)+'</p></div>';if(e.ref)sec+='<div class="detail-sec"><h3>💡 我的反思</h3><p>'+esc(e.ref)+'</p></div>';if(e.imp)sec+='<div class="detail-sec"><h3>🛠️ 改进方案</h3><p>'+esc(e.imp)+'</p></div>';if(e.fol)sec+='<div class="detail-sec"><h3>🔁 后续追踪</h3><p>'+esc(e.fol)+'</p></div>';document.getElementById('detailBox').innerHTML='<button class="btn-sec" onclick="switchPage(\'list\')">← 返回</button><h2>'+esc(e.title)+'</h2><div class="detail-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span>'+ds+'</span></div>'+tagsHtml+sec+'<div class="actions"><button class="btn-del" onclick="deleteEntry(\''+e.id+'\')">🗑️ 删除</button></div>';switchPage('detail')}
+function viewEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('��U_NX[(W');return}const cls=e.cat==='Yef[�S`'?'ct-t':e.cat==='�s�~�{t'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'t^'+(d.getMonth()+1)+'g'+d.getDate()+'�e';const tagsHtml=(e.tags&&e.tags.length)?'<div class="tags">'+e.tags.map(t=>'<span>#'+esc(t)+'</span>').join('')+'</div>':'';let sec='';if(e.sit)sec+='<div class="detail-sec"><h3>=��� �`�X/�</h3><p>'+esc(e.sit)+'</p></div>';if(e.ref)sec+='<div class="detail-sec"><h3>=ء� b�v�S`</h3><p>'+esc(e.ref)+'</p></div>';if(e.imp)sec+='<div class="detail-sec"><h3>=���� 9eۏ�eHh</h3><p>'+esc(e.imp)+'</p></div>';if(e.fol)sec+='<div class="detail-sec"><h3>=�� T�~��*�</h3><p>'+esc(e.fol)+'</p></div>';document.getElementById('detailBox').innerHTML='<button class="btn-sec" onclick="switchPage(\'list\')">�! ԏ�V</button><h2>'+esc(e.title)+'</h2><div class="detail-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span>'+ds+'</span></div>'+tagsHtml+sec+'<div class="actions"><button class="btn-del" onclick="deleteEntry(\''+e.id+'\')">=����  Rd�</button></div>';switchPage('detail')}
 
-function deleteEntry(id){if(!confirm('确定删除？'))return;load();entries=entries.filter(e=>e.id!==id);save();toast('已删除');switchPage('list')}
+function deleteEntry(id){if(!confirm('nx�[ Rd��'))return;load();entries=entries.filter(e=>e.id!==id);save();toast('�] Rd�');switchPage('list')}
 
-function exportCsv(){load();if(!entries.length){toast('暂无数据');return}const rows=[['日期','分类','标题','标签','情境/问题','反思','改进方案','后续追踪']];entries.forEach(e=>{const d=new Date(e.date);rows.push([d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),e.cat,e.title,(e.tags||[]).join('; '),e.sit,e.ref,e.imp,e.fol])});const csv=rows.map(r=>r.map(c=>'"'+(c||'').replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='错题本_'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(a.href);toast('📥 导出成功')}
+function exportCsv(){load();if(!entries.length){toast('�f�epenc');return}const rows=[['�eg','R{|','h��','h~{','�`�X/�','�S`','9eۏ�eHh','T�~��*�']];entries.forEach(e=>{const d=new Date(e.date);rows.push([d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),e.cat,e.title,(e.tags||[]).join('; '),e.sit,e.ref,e.imp,e.fol])});const csv=rows.map(r=>r.map(c=>'"'+(c||'').replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='���,g_'+new Date().toISOString().slice(0,10)+'.csv';a.click();URL.revokeObjectURL(a.href);toast('=��� �[�Qb�R')}
 
 renderDash();
 </script>
 </body>
 </html>
+<div class="sync-bar"><button class="btn-sync" onclick="syncToGitHub()">☁️ 同步到 GitHub</button><button class="btn-sync" onclick="loadFromGitHub()">☁️ 从 GitHub 拉取</button></div><div class="sync-status" id="syncStatus">就绪</div>
+let editId=null;
+function editEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}
+editId=id;document.getElementById('t').value=e.title||'';document.getElementById('c').value=e.cat||'教学反思'
+document.getElementById('tags').value=(e.tags||[]).join(', ');document.getElementById('s').value=e.sit||''
+document.getElementById('r').value=e.ref||'';document.getElementById('i').value=e.imp||''
+document.getElementById('f').value=e.fol||''
+const btn=document.getElementById('saveBtn');btn.onclick=update;btn.textContent='🔄 更新记录';switchPage('add')}
+
+function update(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}
+const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='更新中…'
+load();const idx=entries.findIndex(x=>x.id===editId)
+if(idx<0){toast('记录不存在');editId=null;btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录';return}
+entries[idx]={...entries[idx],title,cat:document.getElementById('c').value,
+tags:document.getElementById('tags').value.split(/[,\u3001]/).map(s=>s.trim()).filter(Boolean),
+sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),
+imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),
+edited:new Date().toISOString()};save();editId=null
+document.getElementById('t').value='';document.getElementById('tags').value=''
+document.getElementById('s').value='';document.getElementById('r').value=''
+document.getElementById('i').value='';document.getElementById('f').value=''
+btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录'
+toast('✅ 已更新');renderDash();switchPage('dashboard')}
+
+const GH_OWNER='kitty197831578-droid',GH_REPO='nb',GH_BRANCH='main',GH_FILE='data.json';
+const GH_RAW='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_FILE;
+function setSync(m){const e=document.getElementById('syncStatus');if(e)e.textContent=m}
+
+function getToken(){let t=localStorage.getItem('gh_token');if(!t){t=prompt('请输入 GitHub Personal Access Token\n创建: https://github.com/settings/tokens/new\n只需 repo 权限');if(t)localStorage.setItem('gh_token',t)}return t}
+
+async function syncToGitHub(){const t=getToken();if(!t)return;setSync('同步中…');load()
+if(!entries.length){setSync('暂无数据');return}
+try{const r=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{headers:{'Accept':'application/vnd.github.v3+json','Authorization':'Bearer '+t}})
+let sha=null;if(r.ok){const i=await r.json();sha=i.sha}
+const b={message:'同步数据 '+new Date().toLocaleString('zh-CN'),content:btoa(unescape(encodeURIComponent(JSON.stringify(entries,null,2)))),branch:GH_BRANCH};if(sha)b.sha=sha
+const p=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{method:'PUT',headers:{'Accept':'application/vnd.github.v3+json','Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(b)})
+if(p.ok){localStorage.setItem('lastSync',new Date().toISOString());setSync('✅ 同步成功');toast('☁️ 已同步')}
+else{const e=await p.text();setSync('❌ 同步失败');console.error(e);toast('同步失败')}}
+catch(e){setSync('❌ 错误: '+e.message);toast('网络错误')}}
+
+async function loadFromGitHub(){setSync('正在拉取…')
+try{const r=await fetch(GH_RAW);if(!r.ok){setSync('⚠️ 无远程数据');return}
+const d=await r.json();if(!Array.isArray(d)||!d.length){setSync('⚠️ 远程数据为空');return}
+load();const ids=new Set(entries.map(x=>x.id));let n=0
+d.forEach(x=>{if(!ids.has(x.id)){entries.push(x);n++}})
+if(n){entries.sort((a,b)=>new Date(b.date)-new Date(a.date));save();setSync('✅ 合并了 '+n+' 条');toast('☁️ 拉取了 '+n+' 条新记录');renderDash()}
+else setSync('✅ 已是最新')}
+catch(e){setSync('❌ 拉取失败: '+e.message);toast('网络错误')}}
+
+setTimeout(loadFromGitHub, 2000);
