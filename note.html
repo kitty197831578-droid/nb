@@ -58,11 +58,6 @@ body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background
 .btn-sync:hover{background:#5a8778}
 .sync-bar{display:flex;gap:8px;margin-bottom:16px}
 .sync-status{font-size:11px;color:#888;text-align:center;padding:4px 0}
-
-.btn-sync{background:#6c9a8b;color:#fff;border:none;padding:10px 0;border-radius:8px;font-size:14px;cursor:pointer;width:100%;font-weight:500;margin-top:10px}
-.btn-sync:hover{background:#5a8778}
-.sync-bar{display:flex;gap:8px;margin-bottom:16px}
-.sync-status{font-size:11px;color:#888;text-align:center;padding:4px 0}
 </style>
 </head>
 <body>
@@ -72,7 +67,7 @@ body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background
 <div class="nav" id="navBar"></div>
 </div>
 <div class="main">
-<div class="page active" id="pageDashboard"><div class="stats" id="statsBox"></div><div class="sync-bar"><button class="btn-sync" onclick="syncToGitHub()">☁️ 同步到 GitHub</button><button class="btn-sync" onclick="loadFromGitHub()">☁️ 从 GitHub 拉取</button></div><div class="sync-status" id="syncStatus">就绪</div><div class="sync-bar"><button class="btn-sync" onclick="syncToGitHub()">☁️ 同步到 GitHub</button><button class="btn-sync" onclick="loadFromGitHub()">☁️ 从 GitHub 拉取</button></div><div class="sync-status" id="syncStatus">就绪</div><div class="recent-box"><div class="recent-title">最近记录</div><div id="recentList"></div></div></div>
+<div class="page active" id="pageDashboard"><div class="stats" id="statsBox"></div><div class="sync-bar"><button class="btn-sync" onclick="syncToGitHub()">☁️ 同步到 GitHub</button><button class="btn-sync" onclick="loadFromGitHub()">☁️ 从 GitHub 拉取</button></div><div class="sync-status" id="syncStatus">就绪</div><div class="recent-box"><div class="recent-title">最近记录</div><div id="recentList"></div></div></div>
 <div class="page" id="pageAdd">
 <div class="form">
 <h2>✏️ 记录一条新反思</h2>
@@ -83,7 +78,7 @@ body{font-family:-apple-system,PingFang SC,Microsoft YaHei,sans-serif;background
 <div class="field"><label>💡 我的反思</label><textarea id="r" rows="3" placeholder="为什么需要改进？"></textarea></div>
 <div class="field"><label>🛠️ 改进方案</label><textarea id="i" rows="2" placeholder="下次我会怎么做？"></textarea></div>
 <div class="field"><label>🔁 后续追踪（可选）</label><textarea id="f" rows="2" placeholder="后来试了吗？"></textarea></div>
-<button class="btn" id="saveBtn" onclick="save()">💾 保存记录</button>
+<button class="btn" id="saveBtn" onclick="saveEntry()")">💾 保存记录</button>
 </div></div>
 <div class="page" id="pageList">
 <div class="bar"><select id="filterCat" onchange="renderList()"><option value="">全部分类</option><option value="教学反思">🍎 教学反思</option><option value="班级管理">📋 班级管理</option><option value="个人成长">🌱 个人成长</option></select>
@@ -102,100 +97,51 @@ const pageLabels=['📊 总览','✏️ 记录','📖 浏览'];
 const navBar=document.getElementById('navBar');
 pageLabels.forEach((label,i)=>{const b=document.createElement('button');b.textContent=label;b.onclick=()=>switchPage(pages[i]);if(i===0)b.className='active';navBar.appendChild(b)})
 
-function switchPage(name){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const idx=pages.indexOf(name);if(idx>=0)document.querySelectorAll('.nav button')[idx].classList.add('active');document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');if(name==='dashboard')
-let editId=null;
-function editEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}
-editId=id;document.getElementById('t').value=e.title||'';document.getElementById('c').value=e.cat||'教学反思'
+function switchPage(name){document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const idx=pages.indexOf(name);if(idx>=0)document.querySelectorAll('.nav button')[idx].classList.add('active');document.getElementById('page'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active');if(name==='dashboard')let editId=null;
+function editEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('\u8BB0\u5F55\u4E0D\u5B58\u5728');return}
+editId=id;document.getElementById('t').value=e.title||'';document.getElementById('c').value=e.cat||'\u6559\u5B66\u53CD\u601D'
 document.getElementById('tags').value=(e.tags||[]).join(', ');document.getElementById('s').value=e.sit||''
 document.getElementById('r').value=e.ref||'';document.getElementById('i').value=e.imp||''
 document.getElementById('f').value=e.fol||''
-const btn=document.getElementById('saveBtn');btn.onclick=update;btn.textContent='🔄 更新记录';switchPage('add')}
+const btn=document.getElementById('saveBtn');btn.onclick=update;btn.textContent='\uD83D\uDD04 \u66F4\u65B0\u8BB0\u5F55';switchPage('add')}
 
-function update(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}
-const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='更新中…'
+function update(){const title=document.getElementById('t').value.trim();if(!title){toast('\u8BF7\u586B\u5199\u6807\u9898');return}
+const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='\u66F4\u65B0\u4E2D\u2026'
 load();const idx=entries.findIndex(x=>x.id===editId)
-if(idx<0){toast('记录不存在');editId=null;btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录';return}
+if(idx<0){toast('\u8BB0\u5F55\u4E0D\u5B58\u5728');editId=null;btn.disabled=false;btn.onclick=saveEntry;btn.textContent='\uD83D\uDCBE \u4FDD\u5B58\u8BB0\u5F55';return}
 entries[idx]={...entries[idx],title,cat:document.getElementById('c').value,
-tags:document.getElementById('tags').value.split(/[,\u3001]/).map(s=>s.trim()).filter(Boolean),
+tags:document.getElementById('tags').value.split(/[,\、]/).map(s=>s.trim()).filter(Boolean),
 sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),
 imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),
 edited:new Date().toISOString()};save();editId=null
-['t','tags','s','r','i','f'].forEach(function(id){document.getElementById(id).value=''})
-btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录'
-toast('✅ 已更新');
-let editId=null;
-function editEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}
-editId=id;document.getElementById('t').value=e.title||'';document.getElementById('c').value=e.cat||'教学反思'
-document.getElementById('tags').value=(e.tags||[]).join(', ');document.getElementById('s').value=e.sit||''
-document.getElementById('r').value=e.ref||'';document.getElementById('i').value=e.imp||''
-document.getElementById('f').value=e.fol||''
-const btn=document.getElementById('saveBtn');btn.onclick=update;btn.textContent='🔄 更新记录';switchPage('add')}
-
-function update(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}
-const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='更新中…'
-load();const idx=entries.findIndex(x=>x.id===editId)
-if(idx<0){toast('记录不存在');editId=null;btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录';return}
-entries[idx]={...entries[idx],title,cat:document.getElementById('c').value,
-tags:document.getElementById('tags').value.split(/[,\u3001]/).map(s=>s.trim()).filter(Boolean),
-sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),
-imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),
-edited:new Date().toISOString()};save();editId=null
-['t','tags','s','r','i','f'].forEach(function(id){document.getElementById(id).value=''})
-btn.disabled=false;btn.onclick=save;btn.textContent='💾 保存记录'
-toast('✅ 已更新');renderDash();switchPage('dashboard')}
+['t','tags','s','r','i','f'].forEach(id=>document.getElementById(id).value='')
+btn.disabled=false;btn.onclick=saveEntry;btn.textContent='\uD83D\uDCBE \u4FDD\u5B58\u8BB0\u5F55'
+toast('\u2705 \u5DF2\u66F4\u65B0');renderDash();switchPage('dashboard')}
 
 const GH_OWNER='kitty197831578-droid',GH_REPO='nb',GH_BRANCH='main',GH_FILE='data.json';
 const GH_RAW='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_FILE;
 function setSync(m){const e=document.getElementById('syncStatus');if(e)e.textContent=m}
 
-function getToken(){let t=localStorage.getItem('gh_token');if(!t){t=prompt('请输入 GitHub Personal Access Token\n创建: https://github.com/settings/tokens/new\n只需 repo 权限');if(t)localStorage.setItem('gh_token',t)}return t}
+function getToken(){let t=localStorage.getItem('gh_token');if(!t){t=prompt('\u8BF7\u8F93\u5165 GitHub Personal Access Token\n\u521B\u5EFA: https://github.com/settings/tokens/new\n\u53EA\u9700 repo \u6743\u9650');if(t)localStorage.setItem('gh_token',t)}return t}
 
-async function syncToGitHub(){const t=getToken();if(!t)return;setSync('同步中…');load()
-if(!entries.length){setSync('暂无数据');return}
+async function syncToGitHub(){const t=getToken();if(!t)return;setSync('\u540C\u6B65\u4E2D\u2026');load()
+if(!entries.length){setSync('\u6682\u65E0\u6570\u636E');return}
 try{const r=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{headers:{'Accept':'application/vnd.github.v3+json','Authorization':'Bearer '+t}})
 let sha=null;if(r.ok){const i=await r.json();sha=i.sha}
-const b={message:'同步数据 '+new Date().toLocaleString('zh-CN'),content:btoa(unescape(encodeURIComponent(JSON.stringify(entries,null,2)))),branch:GH_BRANCH};if(sha)b.sha=sha
+const b={message:'\u540C\u6B65\u6570\u636E '+new Date().toLocaleString('zh-CN'),content:btoa(unescape(encodeURIComponent(JSON.stringify(entries,null,2)))),branch:GH_BRANCH};if(sha)b.sha=sha
 const p=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{method:'PUT',headers:{'Accept':'application/vnd.github.v3+json','Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(b)})
-if(p.ok){localStorage.setItem('lastSync',new Date().toISOString());setSync('✅ 同步成功');toast('☁️ 已同步')}
-else{const e=await p.text();setSync('❌ 同步失败');console.error(e);toast('同步失败')}}
-catch(e){setSync('❌ 错误: '+e.message);toast('网络错误')}}
+if(p.ok){localStorage.setItem('lastSync',new Date().toISOString());setSync('\u2705 \u540C\u6B65\u6210\u529F');toast('\u2601\uFE0F \u5DF2\u540C\u6B65')}
+else{const e=await p.text();setSync('\u274C \u540C\u6B65\u5931\u8D25');console.error(e);toast('\u540C\u6B65\u5931\u8D25')}}
+catch(e){setSync('\u274C \u9519\u8BEF: '+e.message);toast('\u7F51\u7EDC\u9519\u8BEF')}}
 
-async function loadFromGitHub(){setSync('正在拉取…')
-try{const r=await fetch(GH_RAW);if(!r.ok){setSync('⚠️ 无远程数据');return}
-const d=await r.json();if(!Array.isArray(d)||!d.length){setSync('⚠️ 远程数据为空');return}
+async function loadFromGitHub(){setSync('\u6B63\u5728\u62C9\u53D6\u2026')
+try{const r=await fetch(GH_RAW);if(!r.ok){setSync('\u26A0\uFE0F \u65E0\u8FDC\u7A0B\u6570\u636E');return}
+const d=await r.json();if(!Array.isArray(d)||!d.length){setSync('\u26A0\uFE0F \u8FDC\u7A0B\u6570\u636E\u4E3A\u7A7A');return}
 load();const ids=new Set(entries.map(x=>x.id));let n=0
 d.forEach(function(x){if(!ids.has(x.id)){entries.push(x);n++}})
-if(n){entries.sort(function(a,b){return new Date(b.date)-new Date(a.date)});save();setSync('✅ 合并了 '+n+' 条');toast('☁️ 拉取了 '+n+' 条新记录');renderDash()}
-else setSync('✅ 已是最新')}
-catch(e){setSync('❌ 拉取失败: '+e.message);toast('网络错误')}}
-
-setTimeout(loadFromGitHub, 2000);
-renderDash();switchPage('dashboard')}
-
-const GH_OWNER='kitty197831578-droid',GH_REPO='nb',GH_BRANCH='main',GH_FILE='data.json';
-const GH_RAW='https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+GH_FILE;
-function setSync(m){const e=document.getElementById('syncStatus');if(e)e.textContent=m}
-
-function getToken(){let t=localStorage.getItem('gh_token');if(!t){t=prompt('请输入 GitHub Personal Access Token\n创建: https://github.com/settings/tokens/new\n只需 repo 权限');if(t)localStorage.setItem('gh_token',t)}return t}
-
-async function syncToGitHub(){const t=getToken();if(!t)return;setSync('同步中…');load()
-if(!entries.length){setSync('暂无数据');return}
-try{const r=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{headers:{'Accept':'application/vnd.github.v3+json','Authorization':'Bearer '+t}})
-let sha=null;if(r.ok){const i=await r.json();sha=i.sha}
-const b={message:'同步数据 '+new Date().toLocaleString('zh-CN'),content:btoa(unescape(encodeURIComponent(JSON.stringify(entries,null,2)))),branch:GH_BRANCH};if(sha)b.sha=sha
-const p=await fetch('https://api.github.com/repos/'+GH_OWNER+'/'+GH_REPO+'/contents/'+GH_FILE,{method:'PUT',headers:{'Accept':'application/vnd.github.v3+json','Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(b)})
-if(p.ok){localStorage.setItem('lastSync',new Date().toISOString());setSync('✅ 同步成功');toast('☁️ 已同步')}
-else{const e=await p.text();setSync('❌ 同步失败');console.error(e);toast('同步失败')}}
-catch(e){setSync('❌ 错误: '+e.message);toast('网络错误')}}
-
-async function loadFromGitHub(){setSync('正在拉取…')
-try{const r=await fetch(GH_RAW);if(!r.ok){setSync('⚠️ 无远程数据');return}
-const d=await r.json();if(!Array.isArray(d)||!d.length){setSync('⚠️ 远程数据为空');return}
-load();const ids=new Set(entries.map(x=>x.id));let n=0
-d.forEach(function(x){if(!ids.has(x.id)){entries.push(x);n++}})
-if(n){entries.sort(function(a,b){return new Date(b.date)-new Date(a.date)});save();setSync('✅ 合并了 '+n+' 条');toast('☁️ 拉取了 '+n+' 条新记录');renderDash()}
-else setSync('✅ 已是最新')}
-catch(e){setSync('❌ 拉取失败: '+e.message);toast('网络错误')}}
+if(n){entries.sort((a,b)=>new Date(b.date)-new Date(a.date));save();setSync('\u2705 \u5408\u5E76\u4E86 '+n+' \u6761');toast('\u2601\uFE0F \u62C9\u53D6\u4E86 '+n+' \u6761\u65B0\u8BB0\u5F55');renderDash()}
+else setSync('\u2705 \u5DF2\u662F\u6700\u65B0')}
+catch(e){setSync('\u274C \u62C9\u53D6\u5931\u8D25: '+e.message);toast('\u7F51\u7EDC\u9519\u8BEF')}}
 
 setTimeout(loadFromGitHub, 2000);
 renderDash();if(name==='list')renderList()}
@@ -207,11 +153,11 @@ function renderDash(){load();const counts={'教学反思':0,'班级管理':0,'�
 
 function cardHtml(e){const cls=e.cat==='教学反思'?'ct-t':e.cat==='班级管理'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');const prev=(e.sit||e.ref||'').slice(0,60);return'<div class="entry-item" onclick="viewEntry('+e.id+')"><div class="entry-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span class="entry-date">'+ds+'</span></div><div class="entry-title">'+esc(e.title||'无标题')+'</div><div class="entry-preview">'+esc(prev)+(prev.length>=60?'…':'')+'</div></div>'}
 
-function save(){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='保存中…';load();const entry={id:Date.now()+'_'+Math.random().toString(36).slice(2,6),title,cat:document.getElementById('c').value,tags:document.getElementById('tags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),date:new Date().toISOString()};entries.unshift(entry);save();['t','tags','s','r','i','f'].forEach(id=>document.getElementById(id).value='');toast('✅ 已保存');switchPage('dashboard');btn.disabled=false;btn.textContent='💾 保存记录'}
+function saveEntry((){const title=document.getElementById('t').value.trim();if(!title){toast('请填写标题');return}const btn=document.getElementById('saveBtn');btn.disabled=true;btn.textContent='保存中…';load();const entry={id:Date.now()+'_'+Math.random().toString(36).slice(2,6),title,cat:document.getElementById('c').value,tags:document.getElementById('tags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),sit:document.getElementById('s').value.trim(),ref:document.getElementById('r').value.trim(),imp:document.getElementById('i').value.trim(),fol:document.getElementById('f').value.trim(),date:new Date().toISOString()};entries.unshift(entry);save();['t','tags','s','r','i','f'].forEach(id=>document.getElementById(id).value='');toast('✅ 已保存');switchPage('dashboard');btn.disabled=false;btn.textContent='💾 保存记录'}
 
 function renderList(){load();const cat=document.getElementById('filterCat').value;const q=document.getElementById('searchQ').value.trim().toLowerCase();let filtered=entries;if(cat)filtered=filtered.filter(e=>e.cat===cat);if(q)filtered=filtered.filter(e=>(e.title||'').toLowerCase().includes(q)||(e.sit||'').toLowerCase().includes(q)||(e.ref||'').toLowerCase().includes(q)||(e.tags||[]).some(t=>t.toLowerCase().includes(q)));const box=document.getElementById('listBox');if(!filtered.length){box.innerHTML='<div class="empty"><div class="icon">🔍</div><p>没有记录</p></div>';return}box.innerHTML='<div class="recent-box">'+filtered.map(e=>cardHtml(e)).join('')+'</div>'}
 
-function viewEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}const cls=e.cat==='教学反思'?'ct-t':e.cat==='班级管理'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';const tagsHtml=(e.tags&&e.tags.length)?'<div class="tags">'+e.tags.map(t=>'<span>#'+esc(t)+'</span>').join('')+'</div>':'';let sec='';if(e.sit)sec+='<div class="detail-sec"><h3>📌 情境/问题</h3><p>'+esc(e.sit)+'</p></div>';if(e.ref)sec+='<div class="detail-sec"><h3>💡 我的反思</h3><p>'+esc(e.ref)+'</p></div>';if(e.imp)sec+='<div class="detail-sec"><h3>🛠️ 改进方案</h3><p>'+esc(e.imp)+'</p></div>';if(e.fol)sec+='<div class="detail-sec"><h3>🔁 后续追踪</h3><p>'+esc(e.fol)+'</p></div>';document.getElementById('detailBox').innerHTML='<button class="btn-sec" onclick="switchPage(\'list\')">← 返回</button><h2>'+esc(e.title)+'</h2><div class="detail-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span>'+ds+'</span></div>'+tagsHtml+sec+'<div class="actions"><button class="btn-sec" onclick="editEntry('+e.id+')">✏️ 编辑</button><button class="btn-del" onclick="deleteEntry(\''+e.id+'\')">🗑️ 删除</button></div>';switchPage('detail')}
+function viewEntry(id){load();const e=entries.find(x=>x.id===id);if(!e){toast('记录不存在');return}const cls=e.cat==='教学反思'?'ct-t':e.cat==='班级管理'?'ct-m':'ct-p';const d=new Date(e.date);const ds=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';const tagsHtml=(e.tags&&e.tags.length)?'<div class="tags">'+e.tags.map(t=>'<span>#'+esc(t)+'</span>').join('')+'</div>':'';let sec='';if(e.sit)sec+='<div class="detail-sec"><h3>📌 情境/问题</h3><p>'+esc(e.sit)+'</p></div>';if(e.ref)sec+='<div class="detail-sec"><h3>💡 我的反思</h3><p>'+esc(e.ref)+'</p></div>';if(e.imp)sec+='<div class="detail-sec"><h3>🛠️ 改进方案</h3><p>'+esc(e.imp)+'</p></div>';if(e.fol)sec+='<div class="detail-sec"><h3>🔁 后续追踪</h3><p>'+esc(e.fol)+'</p></div>';document.getElementById('detailBox').innerHTML='<button class="btn-sec" onclick="switchPage(\'list\')">← 返回</button><h2>'+esc(e.title)+'</h2><div class="detail-meta"><span class="cat-tag '+cls+'">'+esc(e.cat)+'</span><span>'+ds+'</span></div>'+tagsHtml+sec+'<div class="actions"><button class="btn-sec onclick="editEntry('+e.id+')">✏️ 编辑</button><button class="btn-del" onclick="deleteEntry(\''+e.id+'\')">🗑️ 删除</button></div>';switchPage('detail')}
 
 function deleteEntry(id){if(!confirm('确定删除？'))return;load();entries=entries.filter(e=>e.id!==id);save();toast('已删除');switchPage('list')}
 
